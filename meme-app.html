@@ -5,9 +5,9 @@
 <link rel="import" href="bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="bower_components/core-icons/core-icons.html" rel="import">
 <link rel="import" href="bower_components/paper-fab/paper-fab.html">
-<link rel="import" href="bower_components/core-icon-button/core-icon-button.html">
+<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="bower_components/polymer-ui-card/polymer-ui-card.html">
-
+<link rel="import" href="image-card.html">
 
 <polymer-element name="meme-app">
   <template>
@@ -15,17 +15,25 @@
       polymer-ui-card {
         width: 240px;
         height: 240px;
-        margin: 20px 20px;
+        margin: 20px auto;
         padding: 15px;
+        display: block;
         
       } 
       
       #cards {
-        margin-top: 30px;
+        display: flex;
       }
+      
+
+      paper-toast {
+        bottom: 40px;
+        left: 10px;
+      }
+      
     </style>
     <core-scaffold id="core-scaffold">
-      <core-header-panel mode="standard" id="core_header_panel" navigation flex>
+      <core-header-panel mode="seamed" id="core_header_panel" navigation flex>
         <core-toolbar id="core_toolbar"></core-toolbar>
         <core-menu valueattr="label" id="core_menu" theme="core-light-theme">
           <core-item label="Item1" icon="settings" id="core_item" horizontal center layout></core-item>
@@ -37,15 +45,15 @@
       <div id="title" tool>MemeMaker</div>
       <!--paper-fab icon="add"></paper-fab-->
       <div id="cards">
-        <polymer-ui-card>Blah
-          <core-icon-button icon="add"></core-icon-button>
-        </polymer-ui-card>
+          <image-card image="images/Turkish_Van_Cat.jpg" label="Kitteh"></image-card>
       </div>
     </core-scaffold>
   </template>
   <script>
     Polymer('meme-app', {
-      
+      makeMeme: function () {
+        document.querySelector('#toast1').show();
+      }
     });
   </script>
 </polymer-element>
