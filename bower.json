@@ -1,0 +1,16 @@
+{
+  "name": "MemeMaker",
+  "description": "",
+  "homepage": "",
+  "keywords": [
+  ],
+  "author": "",
+  "private": true,
+  "dependencies": {
+    "polymer": "Polymer/polymer#master",
+    "core-elements": "Polymer/core-elements#master",
+    "paper-toast": "Polymer/paper-toast#master",
+    "paper-fab": "Polymer/paper-fab#master",
+    "polymer-ui-card": "Polymer/polymer-ui-card#master"
+  }
+}
