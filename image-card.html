@@ -33,9 +33,11 @@
         // Set image 
         shadowRoot.querySelector('.image-card').src = imageSrc;
         shadowRoot.querySelector('.meme-label').innerText = this.getAttribute('label');
+        
       },
       makeMeme: function () {
         document.querySelector('#toast1').show();
+        document.querySelector('paper-dialog').toggle();
       }
     });
   </script>

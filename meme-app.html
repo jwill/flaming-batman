@@ -3,7 +3,7 @@
 <link rel="import" href="bower_components/core-menu/core-menu.html">
 <link rel="import" href="bower_components/core-item/core-item.html">
 <link rel="import" href="bower_components/paper-toast/paper-toast.html">
-<link rel="import" href="bower_components/core-icons/core-icons.html" rel="import">
+<link rel="import" href="bower_components/core-icons/core-icons.html">
 <link rel="import" href="bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="bower_components/polymer-ui-card/polymer-ui-card.html">
@@ -23,9 +23,9 @@
       
       #cards {
         display: flex;
+        flex-wrap: wrap;
       }
       
-
       paper-toast {
         bottom: 40px;
         left: 10px;
@@ -38,7 +38,7 @@
         <core-menu valueattr="label" id="core_menu" theme="core-light-theme">
           <core-item label="Item1" icon="settings" id="core_item" horizontal center layout></core-item>
           <core-item label="Item2" icon="settings" id="core_item1" horizontal center layout></core-item>
-          <core-item label="Item2" icon="settings" id="core_item1" horizontal center layout></core-item>
+          <core-item label="View My Memes" icon="settings" id="core_item1" horizontal center layout></core-item>
         </core-menu>
       </core-header-panel>
       
@@ -46,14 +46,19 @@
       <!--paper-fab icon="add"></paper-fab-->
       <div id="cards">
           <image-card image="images/Turkish_Van_Cat.jpg" label="Kitteh"></image-card>
+          <image-card image="images/Turkish_Van_Cat.jpg" label="Kitteh1"></image-card>
+          <image-card image="images/Turkish_Van_Cat.jpg" label="Kitteh2"></image-card>
+          <image-card image="images/Turkish_Van_Cat.jpg" label="Kitteh3"></image-card>
+          <image-card image="images/Turkish_Van_Cat.jpg" label="Kitteh4"></image-card>
+          <image-card image="images/Turkish_Van_Cat.jpg" label="Kitteh5"></image-card>
       </div>
+      <!-- Image overlay -->
+      
     </core-scaffold>
   </template>
   <script>
     Polymer('meme-app', {
-      makeMeme: function () {
-        document.querySelector('#toast1').show();
-      }
+     
     });
   </script>
 </polymer-element>
