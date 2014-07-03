@@ -1,0 +1,114 @@
+<link rel="import" href="bower_components/paper-button/paper-button.html">
+<link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="bower_components/paper-input/paper-input.html">
+
+<polymer-element name="meme-dialog">
+  <template>
+    <style>
+      polymer-ui-card {
+        width: 240px;
+        height: 240px;
+        margin: 20px auto;
+        padding: 15px;
+        display: block;
+        
+      } 
+      
+      #cards {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      
+      paper-toast {
+        bottom: 40px;
+        left: 10px;
+      }
+      
+      #image-container {
+        display: flex;
+      }
+    </style>
+    <paper-dialog heading="Create A Meme" transition="paper-dialog-transition-center">
+    <div id="image-container">
+      <canvas width="500" height="500"></canvas>
+      <div>
+        <paper-input floatingLabel id="topLineText" label="Top line ..."></paper-input><br/>
+        <paper-input floatingLabel id="bottomLineText" label="Bottom line ..."></paper-input><br/>
+      </div>
+    </div>
+
+    <paper-button label="Cancel" affirmative></paper-button>
+    <paper-button label="Save" affirmative default></paper-button>
+
+    </paper-dialog>
+  </template>
+  <script>
+    Polymer('meme-dialog', {
+      ready: function() {
+        console.log("c");
+        this.$.topLine = "Test";
+        this.$.bottomLine = "";
+      },
+      textChangeListener: function () {
+        var parent = document.querySelector('meme-dialog');
+        
+/*        var id = evt.target.id;
+        var text = evt.target.value;
+        if (id == "topLineText") {
+          parent.$.topLine = text;
+        } else {
+          parent.$.bottomLine = text;
+        }*/
+        parent.redrawMeme(parent.$.imageSrc, parent.$.topLineText.inputValue, parent.$.bottomLineText.inputValue);
+      },
+      show: function(imageURL) {
+        var shadowRoot = this.shadowRoot;
+        console.log(shadowRoot);
+        var self = this;
+        var image = new Image();
+        image.onload = function() {
+          
+          self.$.imageSrc = this;
+          console.log("self:"+self);
+          self.redrawMeme(self.$.imageSrc, null, null);
+        }
+        image.src = imageURL;
+        
+        var input1 = this.$.topLineText;
+        var input2 = this.$.bottomLineText;
+        input1.oninput = this.textChangeListener;
+        input2.oninput = this.textChangeListener;
+        shadowRoot.querySelector('paper-dialog').toggle();
+      },
+      sendImage: function(url) {
+        
+      },
+      redrawMeme: function(image, topLine, bottomLine) {
+        
+        var shadowRoot = this.shadowRoot;
+        // Get Canvas2DContext
+        var canvas = shadowRoot.querySelector('canvas');
+        var ctx = canvas.getContext("2d");
+        if (image != null)
+          ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+        
+        // Text attributes
+        ctx.font = '30pt Impact';
+        ctx.textAlign = 'center';
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 3;
+        ctx.fillStyle = 'white';
+        
+        if (topLine != null) {
+          ctx.fillText(topLine, canvas.width / 2, 40);
+          ctx.strokeText(topLine, canvas.width / 2, 40);
+        }
+        
+        if (bottomLine != null) {
+          ctx.fillText(bottomLine, canvas.width / 2, canvas.height - 20);
+          ctx.strokeText(bottomLine, canvas.width / 2, canvas.height - 20);
+        }
+      }
+    });
+  </script>
+</polymer-element>

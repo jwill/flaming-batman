@@ -37,7 +37,9 @@
       },
       makeMeme: function () {
         document.querySelector('#toast1').show();
-        document.querySelector('paper-dialog').toggle();
+        
+        // Send image to meme-dialog
+        document.querySelector('meme-dialog').show(this.getAttribute('image'));
       }
     });
   </script>

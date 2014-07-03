@@ -12,6 +12,7 @@
     "paper-toast": "Polymer/paper-toast#master",
     "paper-fab": "Polymer/paper-fab#master",
     "paper-dialog": "Polymer/paper-dialog#master",
-    "polymer-ui-card": "Polymer/polymer-ui-card#master"
+    "polymer-ui-card": "Polymer/polymer-ui-card#master",
+    "paper-elements": "Polymer/paper-elements#master"
   }
 }
