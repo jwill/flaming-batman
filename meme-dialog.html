@@ -37,50 +37,42 @@
       </div>
     </div>
 
-    <paper-button label="Cancel" affirmative></paper-button>
-    <paper-button label="Save" affirmative default></paper-button>
+    <paper-button label="Cancel" dismissive></paper-button>
+    <paper-button id='saveMemeBtn' label="Save" affirmative default></paper-button>
 
     </paper-dialog>
   </template>
   <script>
     Polymer('meme-dialog', {
       ready: function() {
-        console.log("c");
-        this.$.topLine = "Test";
-        this.$.bottomLine = "";
+        this.$.topLineText.inputValue = "";
+        this.$.bottomLineText.inputValue = "";
       },
       textChangeListener: function () {
         var parent = document.querySelector('meme-dialog');
-        
-/*        var id = evt.target.id;
-        var text = evt.target.value;
-        if (id == "topLineText") {
-          parent.$.topLine = text;
-        } else {
-          parent.$.bottomLine = text;
-        }*/
         parent.redrawMeme(parent.$.imageSrc, parent.$.topLineText.inputValue, parent.$.bottomLineText.inputValue);
       },
       show: function(imageURL) {
         var shadowRoot = this.shadowRoot;
-        console.log(shadowRoot);
         var self = this;
         var image = new Image();
         image.onload = function() {
-          
           self.$.imageSrc = this;
-          console.log("self:"+self);
           self.redrawMeme(self.$.imageSrc, null, null);
+          shadowRoot.querySelector('paper-dialog').toggle();
         }
         image.src = imageURL;
         
         var input1 = this.$.topLineText;
         var input2 = this.$.bottomLineText;
+        var saveButton = this.$.saveMemeBtn;
         input1.oninput = this.textChangeListener;
         input2.oninput = this.textChangeListener;
-        shadowRoot.querySelector('paper-dialog').toggle();
-      },
-      sendImage: function(url) {
+        this.$.saveMemeBtn.addEventListener('click', this.saveMeme, false);
+        // Clear input text
+        this.$.topLineText.inputValue = "";
+        this.$.bottomLineText.inputValue = "";
+        
         
       },
       redrawMeme: function(image, topLine, bottomLine) {
@@ -89,14 +81,23 @@
         // Get Canvas2DContext
         var canvas = shadowRoot.querySelector('canvas');
         var ctx = canvas.getContext("2d");
-        if (image != null)
-          ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-        
+        if (image != null) {
+          if (image.width > 1000) {
+            canvas.width = image.width / 2;
+            canvas.height = image.height / 2;
+            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+          } else {
+            canvas.width = image.width;
+            canvas.height = image.height;
+            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+            
+          }
+        }
         // Text attributes
-        ctx.font = '30pt Impact';
+        ctx.font = '36pt Impact';
         ctx.textAlign = 'center';
         ctx.strokeStyle = 'black';
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 2;
         ctx.fillStyle = 'white';
         
         if (topLine != null) {
@@ -108,6 +109,14 @@
           ctx.fillText(bottomLine, canvas.width / 2, canvas.height - 20);
           ctx.strokeText(bottomLine, canvas.width / 2, canvas.height - 20);
         }
+      },
+      saveMeme: function() {
+        document.querySelector('#toast2').show();
+        var parent = document.querySelector('meme-dialog');
+        var shadowRoot = parent.shadowRoot;
+        var canvas = shadowRoot.querySelector('canvas');
+        window.open(canvas.toDataURL('image/png'));
+        shadowRoot.querySelector('paper-dialog').toggle();
       }
     });
   </script>
