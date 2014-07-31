@@ -11,19 +11,19 @@
         margin: 20px auto;
         padding: 15px;
         display: block;
-        
-      } 
-      
+
+      }
+
       #cards {
         display: flex;
         flex-wrap: wrap;
       }
-      
+
       paper-toast {
         bottom: 40px;
         left: 10px;
       }
-      
+
       #image-container {
         display: flex;
       }
@@ -49,7 +49,7 @@
         this.$.bottomLineText.inputValue = "";
       },
       textChangeListener: function () {
-        var parent = document.querySelector('meme-dialog');
+        var parent = document.querySelector('meme-app').$.dialog;
         parent.redrawMeme(parent.$.imageSrc, parent.$.topLineText.inputValue, parent.$.bottomLineText.inputValue);
       },
       show: function(imageURL) {
@@ -62,7 +62,7 @@
           shadowRoot.querySelector('paper-dialog').toggle();
         }
         image.src = imageURL;
-        
+
         var input1 = this.$.topLineText;
         var input2 = this.$.bottomLineText;
         var saveButton = this.$.saveMemeBtn;
@@ -72,11 +72,11 @@
         // Clear input text
         this.$.topLineText.inputValue = "";
         this.$.bottomLineText.inputValue = "";
-        
-        
+
+
       },
       redrawMeme: function(image, topLine, bottomLine) {
-        
+
         var shadowRoot = this.shadowRoot;
         // Get Canvas2DContext
         var canvas = shadowRoot.querySelector('canvas');
@@ -90,7 +90,7 @@
             canvas.width = image.width;
             canvas.height = image.height;
             ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-            
+
           }
         }
         // Text attributes
@@ -99,24 +99,23 @@
         ctx.strokeStyle = 'black';
         ctx.lineWidth = 2;
         ctx.fillStyle = 'white';
-        
+
         if (topLine != null) {
           ctx.fillText(topLine, canvas.width / 2, 40);
           ctx.strokeText(topLine, canvas.width / 2, 40);
         }
-        
+
         if (bottomLine != null) {
           ctx.fillText(bottomLine, canvas.width / 2, canvas.height - 20);
           ctx.strokeText(bottomLine, canvas.width / 2, canvas.height - 20);
         }
       },
       saveMeme: function() {
-        document.querySelector('#toast2').show();
-        var parent = document.querySelector('meme-dialog');
-        var shadowRoot = parent.shadowRoot;
-        var canvas = shadowRoot.querySelector('canvas');
+        var parent = document.querySelector('meme-app').$;
+        parent.toast2.show();
+        var canvas = parent.dialog.$['image-container'].querySelector("canvas");
         window.open(canvas.toDataURL('image/png'));
-        shadowRoot.querySelector('paper-dialog').toggle();
+        parent.dialog.toggle();
       }
     });
   </script>

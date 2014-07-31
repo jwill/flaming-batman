@@ -11,7 +11,7 @@
         background-color: #FFFFFF;
         margin: 10px;
       }
-      
+
       .meme-label {
         line-height: 40px;
       }
@@ -24,22 +24,23 @@
             <paper-item class="meme-label">{{label}}</paper-item>
             <paper-icon-button class="meme-btn" on-tap="{{makeMeme}}" icon="add"></paper-icon-button>
           </div>
-  </template>  
+  </template>
   <script>
     Polymer('image-card', {
       ready: function() {
         var imageSrc = this.getAttribute('image');
         var shadowRoot = this.shadowRoot;
-        // Set image 
+        // Set image
         shadowRoot.querySelector('.image-card').src = imageSrc;
         shadowRoot.querySelector('.meme-label').innerText = this.getAttribute('label');
-        
+
       },
       makeMeme: function () {
-        document.querySelector('#toast1').show();
-        
+        var app = document.querySelector('meme-app').$;
+        app.toast1.show();
+
         // Send image to meme-dialog
-        document.querySelector('meme-dialog').show(this.getAttribute('image'));
+        app.dialog.show(this.getAttribute('image'));
       }
     });
   </script>

@@ -58,8 +58,9 @@
             <image-card image="images/PumpedIlya.png" label="Pumped Ilya"></image-card>
             <image-card image="images/Turkish_Van_Cat.jpg" label="Kitteh"></image-card>
         </div>
+        <meme-dialog id="dialog"></meme-dialog>
         <div id="toast-area">
-          <meme-dialog id="#dialog"></meme-dialog>
+
           <paper-toast id="toast1" text="Loading meme image."></paper-toast>
           <paper-toast id="toast2" text="Saving meme image."></paper-toast>
           <paper-toast id="toast3" text="Not implemented."></paper-toast>
@@ -86,7 +87,7 @@
       },
       loadImageCards: function() {
         // Not implemented.
-      }
+      },
       notImplemented: function() {
         document.querySelector('#toast3').show();
       }
