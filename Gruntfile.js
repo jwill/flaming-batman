@@ -9,7 +9,7 @@ module.exports = function(grunt) {
           spawn: false,
           interrupt: true
         },
-        files: ['elements/**/*.html', 'index.html'],
+        files: ['*.html', 'index.html'],
         tasks: ['vulcanize']
       }
     },

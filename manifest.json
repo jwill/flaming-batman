@@ -15,7 +15,7 @@
   },
   "permissions": [
     "fileBrowserHandler",
-    "fileSystem",
+    {"fileSystem":["write", "retainEntries", "directory"]},
     "storage",
     "unlimitedStorage",
     "webview"
