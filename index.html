@@ -4,8 +4,8 @@
 <head>
   <title>MemeMaker</title>
 
-  <link rel="stylesheet" href="styles.css">
-    
+  <link rel="stylesheet" href="assets/css/styles.css">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -19,16 +19,17 @@
 				outline: 1px solid rgba(0,0,0,0.2);
 				box-shadow: 0 4px 16px rgba(0,0,0,0.2);
 			}
+
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
   </style>
 </head>
 
 <body unresolved>
   <meme-app></meme-app>
-  <meme-dialog id="#dialog"></meme-dialog>
-  <paper-toast id="toast1" text="Loading meme image."></paper-toast>
-  <paper-toast id="toast2" text="Saving meme image."></paper-toast>
-  <paper-toast id="toast3" text="Not implemented."></paper-toast>
-
-  <script src="main.js"></script>
+  <script src="assets/js/main.js"></script>
 </body>
 </html>

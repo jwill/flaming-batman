@@ -4,7 +4,7 @@
   "homepage": "",
   "keywords": [
   ],
-  "author": "",
+  "author": "James Williams",
   "private": true,
   "dependencies": {
     "polymer": "Polymer/polymer#master",
