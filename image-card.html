@@ -21,7 +21,7 @@
     </style>
     <div class="card">
             <img id='image' class="image-card" src="{{image}}" /><br/>
-            <paper-item id='title' label="dfdfd" class="meme-label"></paper-item>
+            <paper-item id='title' class="meme-label"></paper-item>
             <paper-icon-button class="meme-btn" on-tap="{{makeMeme}}" icon="add"></paper-icon-button>
           </div>
   </template>
@@ -40,9 +40,7 @@
         this.$.image.src = src;
       },
       setTitle: function(l) {
-        console.log("setLabel" + ":"+l);
         this.$.title.innerText = l;
-        console.log(this.$.title.label);
       },
       makeMeme: function () {
         var app = document.querySelector('meme-app').$;

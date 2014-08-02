@@ -83,7 +83,6 @@
       checkForImageDir: function() {
         var self = this;
         chrome.storage.local.get(null, function(result) {
-          console.log(result);
           if (result.imageDir == undefined) {
             var toast = document.createElement("paper-toast");
             toast.text = "Need to ask user for directory.";
@@ -101,18 +100,25 @@
               });
             });
           } else {
+            //TODO refactor this
             var dirId = result.imageDir;
-
             chrome.fileSystem.restoreEntry(dirId, function(entry) {
               self.workingDir = entry;
-              self.filer.init({persistent:true, size: 500 * 1024 * 1024}, function(fs) {}, self.onError);
+              self.filer.init({persistent:true, size: 500 * 1024 * 1024}, function(fs) {
+                self.loadImageCards();  
+                self.filer.mkdir("createdMemes", false, function(dirEntry) {
+                  self.createdMemesDir = dirEntry;
+                  chrome.storage.local.set({"memeDir":chrome.fileSystem.retainEntry(dirEntry)}, function callback(objs) {
+                // toast message here
+                console.log(objs);
+              });
+                });
+              }, self.onError);
             });
-            self.loadImageCards();
           }
         });
       },
       loadImageCards: function() {
-        // Not implemented.
         var self = this;
         this.filer.ls(this.workingDir, function(objs) {
           for (index in objs) {
