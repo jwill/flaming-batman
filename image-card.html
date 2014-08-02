@@ -1,4 +1,4 @@
-<polymer-element name="image-card">
+<polymer-element name="image-card" constructor="ImageCard">
   <template>
     <style>
       .image-card {
@@ -20,27 +20,36 @@
       }
     </style>
     <div class="card">
-            <img class="image-card" src="{{image}}" /><br/>
-            <paper-item class="meme-label">{{label}}</paper-item>
+            <img id='image' class="image-card" src="{{image}}" /><br/>
+            <paper-item id='title' label="dfdfd" class="meme-label"></paper-item>
             <paper-icon-button class="meme-btn" on-tap="{{makeMeme}}" icon="add"></paper-icon-button>
           </div>
   </template>
   <script>
     Polymer('image-card', {
       ready: function() {
-        var imageSrc = this.getAttribute('image');
-        var shadowRoot = this.shadowRoot;
-        // Set image
-        shadowRoot.querySelector('.image-card').src = imageSrc;
-        shadowRoot.querySelector('.meme-label').innerText = this.getAttribute('label');
-
+        this.imageSrc = this.getAttribute('image');
+        this.label = this.getAttribute('label');
+        if (this.imageSrc) {
+          // Set image
+          this.setImageSrc(this.imageSrc);
+  //        this.setTitle(this.label);
+        }
+      },
+      setImageSrc: function(src) {
+        this.$.image.src = src;
+      },
+      setTitle: function(l) {
+        console.log("setLabel" + ":"+l);
+        this.$.title.innerText = l;
+        console.log(this.$.title.label);
       },
       makeMeme: function () {
         var app = document.querySelector('meme-app').$;
         app.toast1.show();
 
         // Send image to meme-dialog
-        app.dialog.show(this.getAttribute('image'), this.getAttribute('label'));
+        app.dialog.show(this.$.image.src, this.$.title.innerText);
       }
     });
   </script>

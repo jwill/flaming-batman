@@ -53,10 +53,13 @@
           <core-icon-button icon="info" on-tap="{{notImplemented}}"></core-icon-button>
         </core-toolbar>
         <div id="cards" class="content">
-            <image-card image="images/CamBeLike.png" label="Cam Be Like..."></image-card>
+            <!--image-card image="images/CamBeLike.png" label="Cam Be Like..."></image-card>
             <image-card image="images/SadDan.png" label="Sad Dan"></image-card>
             <image-card image="images/PumpedIlya.png" label="Pumped Ilya"></image-card>
             <image-card image="images/Turkish_Van_Cat.jpg" label="Kitteh"></image-card>
+            <image-card image="images/Turkish_Van_Cat.jpg" label="Kitteh"></image-card>
+            <image-card image="images/Turkish_Van_Cat.jpg" label="Kitteh"></image-card>
+            <image-card image="images/Turkish_Van_Cat.jpg" label="Kitteh"></image-card-->
         </div>
         <meme-dialog id="dialog"></meme-dialog>
         <div id="toast-area">
@@ -70,26 +73,84 @@
   </template>
   <script>
     Polymer('meme-app', {
+      created: function() {
+        this.filer = new Filer();  
+        this.workingDir = null; 
+      },
       ready: function() {
         this.checkForImageDir();
       },
       checkForImageDir: function() {
         var self = this;
         chrome.storage.local.get(null, function(result) {
+          console.log(result);
           if (result.imageDir == undefined) {
             var toast = document.createElement("paper-toast");
             toast.text = "Need to ask user for directory.";
             self.$["toast-area"].appendChild(toast);
             toast.show();
             // Really ask user for directory
+            //Chrome Packaged App Save file
+            var options = {
+              type:'openDirectory',
+            };
+            chrome.fileSystem.chooseEntry(options, function(dirEntry){
+              chrome.storage.local.set({"imageDir":chrome.fileSystem.retainEntry(dirEntry)}, function callback(objs) {
+                // toast message here
+                console.log(objs);
+              });
+            });
+          } else {
+            var dirId = result.imageDir;
+
+            chrome.fileSystem.restoreEntry(dirId, function(entry) {
+              self.workingDir = entry;
+              self.filer.init({persistent:true, size: 500 * 1024 * 1024}, function(fs) {}, self.onError);
+            });
+            self.loadImageCards();
           }
         });
       },
       loadImageCards: function() {
         // Not implemented.
+        var self = this;
+        this.filer.ls(this.workingDir, function(objs) {
+          for (index in objs) {
+            var file = objs[index];
+            if (file.name != ".DS_Store") {
+              self.processImage(file);
+            }
+          }  
+        });
+      },
+      processImage: function(file) {
+        var self = this;
+        file.file(function(f){
+          var reader = new FileReader();
+          reader.onerror = self.onError;
+          reader.onloadend = function(e) { 
+            self.createImageCard(file.name, this.result);
+          };
+          reader.readAsDataURL(f);
+        });
+      },
+      createImageCard: function(name, dataURL) {
+        var imageCard = new ImageCard();
+        var label = name.split(Util.getFileExtension(name))[0]
+        imageCard.setTitle(label);
+        imageCard.setImageSrc(dataURL);
+        this.$.cards.appendChild(imageCard);
+        return imageCard;
       },
       notImplemented: function() {
         document.querySelector('#toast3').show();
+      },
+      clearSettings: function() {
+        chrome.storage.local.clear();
+      },
+      onError: function(e) {
+        // TODO Move to a toast message
+        console.log('Error' + e.name);
       }
     });
   </script>
