@@ -53,13 +53,7 @@
           <core-icon-button icon="info" on-tap="{{notImplemented}}"></core-icon-button>
         </core-toolbar>
         <div id="cards" class="content">
-            <!--image-card image="images/CamBeLike.png" label="Cam Be Like..."></image-card>
-            <image-card image="images/SadDan.png" label="Sad Dan"></image-card>
-            <image-card image="images/PumpedIlya.png" label="Pumped Ilya"></image-card>
-            <image-card image="images/Turkish_Van_Cat.jpg" label="Kitteh"></image-card>
-            <image-card image="images/Turkish_Van_Cat.jpg" label="Kitteh"></image-card>
-            <image-card image="images/Turkish_Van_Cat.jpg" label="Kitteh"></image-card>
-            <image-card image="images/Turkish_Van_Cat.jpg" label="Kitteh"></image-card-->
+            <!--image-card image="images/Turkish_Van_Cat.jpg" label="Kitteh"></image-card-->
         </div>
         <meme-dialog id="dialog"></meme-dialog>
         <div id="toast-area">
@@ -69,13 +63,13 @@
           <paper-toast id="toast3" text="Not implemented."></paper-toast>
         </div>
       </core-header-panel>
-      <!--paper-fab icon="add"></paper-fab-->
   </template>
   <script>
     Polymer('meme-app', {
       created: function() {
         this.filer = new Filer();  
         this.workingDir = null; 
+        this.createdMemesDir = null;
       },
       ready: function() {
         this.checkForImageDir();

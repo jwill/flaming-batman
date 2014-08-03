@@ -111,6 +111,7 @@
         }
       },
       errorHandler: function(e) {
+        // Convert to toast
         console.log(e);
       },
       saveMeme: function() {
@@ -128,7 +129,6 @@
           fileEntry.createWriter(function(writer){
             writer.onerror = parent.dialog.errorHandler;
             writer.onwriteend = function(e) {
-              parent.dialog.toggle();
               // Change to toast later
               console.log('write complete');
             }
