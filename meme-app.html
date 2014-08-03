@@ -11,7 +11,6 @@
 <link rel="import" href="meme-dialog.html">
 <link rel="import" href="image-card.html">
 
-
 <polymer-element name="meme-app">
   <template>
     <style>
@@ -50,7 +49,7 @@
         <core-toolbar id="core_toolbar">
           <span flex>Udacity Meme Generator</span>
           <core-icon-button icon="add" on-tap="{{notImplemented}}"></core-icon-button>
-          <core-icon-button icon="info" on-tap="{{notImplemented}}"></core-icon-button>
+          <core-icon-button icon="info" on-tap="{{showAboutDialog}}"></core-icon-button>
         </core-toolbar>
         <div id="cards" class="content">
             <!--image-card image="images/Turkish_Van_Cat.jpg" label="Kitteh"></image-card-->
@@ -61,14 +60,22 @@
           <paper-toast id="toast1" text="Loading meme image."></paper-toast>
           <paper-toast id="toast2" text="Saving meme image."></paper-toast>
           <paper-toast id="toast3" text="Not implemented."></paper-toast>
+          <paper-dialog id="about" heading="About" transition="paper-dialog-transition-center">
+            <p>Created 2014 by James Williams, Course Developer for spec course on
+            Canvas 2D.</p>
+            <p>Many thanks to all the people who were good sports about memes
+            being created of them.</p>
+
+            <paper-button label="Close" dismissive></paper-button>
+          </paper-dialog>
         </div>
       </core-header-panel>
   </template>
   <script>
     Polymer('meme-app', {
       created: function() {
-        this.filer = new Filer();  
-        this.workingDir = null; 
+        this.filer = new Filer();
+        this.workingDir = null;
         this.createdMemesDir = null;
       },
       ready: function() {
@@ -91,6 +98,7 @@
               chrome.storage.local.set({"imageDir":chrome.fileSystem.retainEntry(dirEntry)}, function callback(objs) {
                 // toast message here
                 console.log(objs);
+                self.checkForImageDir();
               });
             });
           } else {
@@ -99,7 +107,7 @@
             chrome.fileSystem.restoreEntry(dirId, function(entry) {
               self.workingDir = entry;
               self.filer.init({persistent:true, size: 500 * 1024 * 1024}, function(fs) {
-                self.loadImageCards();  
+                self.loadImageCards();
                 self.filer.mkdir("createdMemes", false, function(dirEntry) {
                   self.createdMemesDir = dirEntry;
                   chrome.storage.local.set({"memeDir":chrome.fileSystem.retainEntry(dirEntry)}, function callback(objs) {
@@ -120,7 +128,7 @@
             if (file.name != ".DS_Store") {
               self.processImage(file);
             }
-          }  
+          }
         });
       },
       processImage: function(file) {
@@ -128,7 +136,7 @@
         file.file(function(f){
           var reader = new FileReader();
           reader.onerror = self.onError;
-          reader.onloadend = function(e) { 
+          reader.onloadend = function(e) {
             self.createImageCard(file.name, this.result);
           };
           reader.readAsDataURL(f);
@@ -142,8 +150,11 @@
         this.$.cards.appendChild(imageCard);
         return imageCard;
       },
+      showAboutDialog: function() {
+        this.$.about.toggle();
+      },
       notImplemented: function() {
-        document.querySelector('#toast3').show();
+        this.$.toast3.show();
       },
       clearSettings: function() {
         chrome.storage.local.clear();

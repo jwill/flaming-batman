@@ -14,7 +14,6 @@
     }
   },
   "permissions": [
-    "fileBrowserHandler",
     {"fileSystem":["write", "retainEntries", "directory"]},
     "storage",
     "unlimitedStorage",
