@@ -2,8 +2,6 @@
   <template>
     <style>
       .image-card {
-        height: 200px;
-        width: 228px;
         left: 50%;
       }
       .card {
@@ -19,10 +17,12 @@
         float: right;
       }
     </style>
-    <div class="card">
-      <img id='image' class="image-card" src="{{image}}" /><br/>
-      <paper-item id='title' class="meme-label"></paper-item>
-      <paper-icon-button class="meme-btn" on-tap="{{makeMeme}}" icon="add"></paper-icon-button>
+    <div class="card" layout vertical>
+      <img id='image' class="image-card" src="{{image}}" />
+      <div>
+        <paper-item id='title' class="meme-label"></paper-item>
+        <paper-icon-button class="meme-btn" on-tap="{{makeMeme}}" icon="add"></paper-icon-button>
+      </div>
     </div>
   </template>
   <script>
@@ -37,6 +37,22 @@
       },
       setImageSrc: function(src) {
         this.$.image.src = src;
+        this.checkDimensions();
+      },
+      checkDimensions: function(){
+        // Figure out which is the longest dimension
+        // Repetitively scale down until the longest dimension is
+        // under 450px
+        var isWidthGreater = this.$.image.width > this.$.image.height;
+        if (isWidthGreater) {
+          while(this.$.image.width > 450) {
+            this.$.image.width /= 2;
+          }
+        } else {
+          while(this.$.image.height > 450) {
+            this.$.image.height /= 2;
+          }
+        }
       },
       setTitle: function(l) {
         this.$.title.innerText = l;
