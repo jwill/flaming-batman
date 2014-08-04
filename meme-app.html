@@ -69,6 +69,18 @@
 
             <paper-button label="Close" dismissive></paper-button>
           </paper-dialog>
+          <paper-dialog id="firstRun" heading="Welcome to MemeGen" transition="paper-dialog-transition-center">
+            <p>Hi there, if you are reading this, you probably got this internally and are running this for the first time.</p>
+            <p>If you haven't already grabbed the photos from
+              <a href="https://" target="_blank">here</a>, go do that now and put them in their own directory.
+
+            <p>It will ask for the directory where those files are.</p>
+            <img src="assets/images/firstRunSelectDirectory.png">
+
+            <p>It will create a createdMemes directory to store your created memes. After you create your first meme, save it in this directory.
+              All others will save there automatically.</p>
+            <paper-button id="continue" label="Continue" affirmative></paper-button>
+          </paper-dialog>
         </div>
       </core-header-panel>
   </template>
@@ -86,22 +98,20 @@
         var self = this;
         chrome.storage.local.get(null, function(result) {
           if (result.imageDir == undefined) {
-            var toast = document.createElement("paper-toast");
-            toast.text = "Need to ask user for directory.";
-            self.$["toast-area"].appendChild(toast);
-            toast.show();
-            // Really ask user for directory
-            //Chrome Packaged App Save file
-            var options = {
-              type:'openDirectory',
-            };
-            chrome.fileSystem.chooseEntry(options, function(dirEntry){
-              chrome.storage.local.set({"imageDir":chrome.fileSystem.retainEntry(dirEntry)}, function callback(objs) {
-                // toast message here
-                console.log(objs);
-                self.checkForImageDir();
-              });
-            });
+           self.$.firstRun.toggle();
+           self.$.firstRun.querySelector("#continue").addEventListener('click', function() {
+             // Really ask user for directory
+             var options = {
+               type:'openDirectory',
+             };
+             chrome.fileSystem.chooseEntry(options, function(dirEntry){
+               chrome.storage.local.set({"imageDir":chrome.fileSystem.retainEntry(dirEntry)}, function callback(objs) {
+                 // toast message here
+                 console.log(objs);
+                 self.checkForImageDir();
+               });
+             });
+           }, false);
           } else {
             //TODO refactor this
             var dirId = result.imageDir;
@@ -119,6 +129,7 @@
               }, self.onError);
             });
           }
+        // End chrome.storage.local
         });
       },
       loadImageCards: function() {
