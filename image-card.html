@@ -20,10 +20,10 @@
       }
     </style>
     <div class="card">
-            <img id='image' class="image-card" src="{{image}}" /><br/>
-            <paper-item id='title' class="meme-label"></paper-item>
-            <paper-icon-button class="meme-btn" on-tap="{{makeMeme}}" icon="add"></paper-icon-button>
-          </div>
+      <img id='image' class="image-card" src="{{image}}" /><br/>
+      <paper-item id='title' class="meme-label"></paper-item>
+      <paper-icon-button class="meme-btn" on-tap="{{makeMeme}}" icon="add"></paper-icon-button>
+    </div>
   </template>
   <script>
     Polymer('image-card', {
@@ -33,7 +33,6 @@
         if (this.imageSrc) {
           // Set image
           this.setImageSrc(this.imageSrc);
-  //        this.setTitle(this.label);
         }
       },
       setImageSrc: function(src) {

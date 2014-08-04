@@ -37,7 +37,8 @@
       }
       core-toolbar {
         background-color: #3636B6;
-        color: #e39d2c;
+        /*color: #e39d2c;*/
+        color: #FFFFFF;
       }
       meme-app {
         width: 100%;
@@ -48,7 +49,7 @@
       <core-header-panel id="core_header_panel" navigation flex>
         <core-toolbar id="core_toolbar">
           <span flex>Udacity Meme Generator</span>
-          <core-icon-button icon="add" on-tap="{{notImplemented}}"></core-icon-button>
+          <core-icon-button icon="refresh" on-tap="{{loadImageCards}}"></core-icon-button>
           <core-icon-button icon="info" on-tap="{{showAboutDialog}}"></core-icon-button>
         </core-toolbar>
         <div id="cards" class="content">
@@ -121,15 +122,20 @@
         });
       },
       loadImageCards: function() {
-        var self = this;
-        this.filer.ls(this.workingDir, function(objs) {
-          for (index in objs) {
-            var file = objs[index];
-            if (file.name != ".DS_Store") {
-              self.processImage(file);
+        try {
+          var self = this;
+          this.$.cards.innerHTML = '';
+          this.filer.ls(this.workingDir, function(objs) {
+            for (index in objs) {
+              var file = objs[index];
+              if (file.name != ".DS_Store") {
+                self.processImage(file);
+              }
             }
-          }
-        });
+          });
+        } catch (error) {
+          onError(error);
+        }
       },
       processImage: function(file) {
         var self = this;
