@@ -137,12 +137,11 @@
           var self = this;
           this.$.cards.innerHTML = '';
           this.filer.ls(this.workingDir, function(objs) {
-            for (index in objs) {
-              var file = objs[index];
-              if (file.name != ".DS_Store") {
+            objs.forEach(function(file) {
+              if (file.name != '.DS_Store' && file.isFile) {
                 self.processImage(file);
               }
-            }
+            });
           });
         } catch (error) {
           onError(error);
