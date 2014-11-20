@@ -28,8 +28,8 @@
       }
     </style>
     <paper-dialog heading="Create A Meme" transition="paper-dialog-transition-center">
-    <div id="image-container">
-      <canvas width="500" height="500"></canvas>
+      <div id="image-container">
+        <canvas width="500" height="500"></canvas>
       <div>
         <paper-input floatingLabel id="topLineText" label="Top line ..."></paper-input><br/>
         <paper-input floatingLabel id="bottomLineText" label="Bottom line ..."></paper-input><br/>
@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    <paper-button label="Cancel" dismissive></paper-button>
+    <paper-button id='closeMemeBtn' label="Cancel" dismissive></paper-button>
     <paper-button id='saveMemeBtn' label="Save" affirmative default></paper-button>
 
     </paper-dialog>
@@ -47,10 +47,16 @@
       ready: function() {
         this.$.topLineText.inputValue = "";
         this.$.bottomLineText.inputValue = "";
+
+
       },
       textChangeListener: function () {
         var parent = document.querySelector('meme-app').$.dialog;
         parent.redrawMeme(parent.$.imageSrc, parent.$.topLineText.inputValue, parent.$.bottomLineText.inputValue);
+      },
+      close: function() {
+        var app = document.querySelector('meme-app').$;
+        app.dialog.shadowRoot.querySelector('paper-dialog').toggle();
       },
       show: function(imageURL, imageLabel) {
         var shadowRoot = this.shadowRoot;
@@ -130,6 +136,9 @@
             writer.onwriteend = function(e) {
               // Change to toast later
               console.log('write complete');
+              // dirty
+              var app = document.querySelector('meme-app').$;
+              app.dialog.shadowRoot.querySelector('paper-dialog').toggle();
             }
             writer.write(Util.dataURLToBlob(canvas.toDataURL('image/png')), {type: 'image/png'});
           }, parent.dialog.errorHandler);
