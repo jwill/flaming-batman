@@ -1,3 +1,4 @@
+<link rel="import" href="../bower_components/ujiro-card/ujiro-card.html">
 <polymer-element name="image-card" constructor="ImageCard">
   <template>
     <style>
@@ -16,14 +17,24 @@
       .meme-btn {
         float: right;
       }
+
+      ujiro-card {
+        margin: 4px;
+      }
+
+      .meme-btn::shadow #ripple {
+        color: blue;
+      }
     </style>
-    <div class="card" layout vertical>
-      <img id='image' class="image-card" src="{{image}}" />
-      <div>
+    <ujiro-card>
+      <div class="media">
+        <img id='image' class="image-card" src="{{image}}" />
+      </div>
+      <div class="text">
         <paper-item id='title' class="meme-label"></paper-item>
         <paper-icon-button class="meme-btn" on-tap="{{makeMeme}}" icon="add"></paper-icon-button>
       </div>
-    </div>
+    </ujiro-card>
   </template>
   <script>
     Polymer('image-card', {

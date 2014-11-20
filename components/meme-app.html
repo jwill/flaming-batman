@@ -44,6 +44,11 @@
         width: 100%;
         height: 100%;
       }
+
+      #continue, #close {
+        background: #3636B6;
+        color: #FFFFFF;
+      }
     </style>
 
       <core-header-panel id="core_header_panel" navigation flex>
@@ -66,7 +71,7 @@
             <p>Many thanks to all the people who were good sports about memes
             being created of them.</p>
 
-            <paper-button label="Close" dismissive></paper-button>
+            <paper-button id="close" label="Close" dismissive raised></paper-button>
           </paper-dialog>
           <paper-dialog id="firstRun" heading="Welcome to MemeGen" transition="paper-dialog-transition-center">
             <p>Hi there, if you are reading this, you probably got this internally and are running this for the first time.</p>
@@ -78,7 +83,7 @@
 
             <p>It will create a createdMemes directory to store your created memes. After you create your first meme, save it in this directory.
               All others will save there automatically.</p>
-            <paper-button id="continue" label="Continue" affirmative></paper-button>
+            <paper-button id="continue" label="Continue" affirmative raised></paper-button>
           </paper-dialog>
         </div>
       </core-header-panel>

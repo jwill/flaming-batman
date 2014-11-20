@@ -2,8 +2,7 @@
   "name": "MemeMaker",
   "description": "",
   "homepage": "",
-  "keywords": [
-  ],
+  "keywords": [],
   "author": "James Williams",
   "private": true,
   "dependencies": {
@@ -13,6 +12,10 @@
     "paper-fab": "Polymer/paper-fab#master",
     "paper-dialog": "Polymer/paper-dialog#master",
     "polymer-ui-card": "Polymer/polymer-ui-card#master",
-    "paper-elements": "Polymer/paper-elements#master"
+    "paper-elements": "Polymer/paper-elements#master",
+    "ujiro-card": "ujiro99/ujiro-card#master"
+  },
+  "resolutions": {
+    "polymer": "^0.4.0"
   }
 }
